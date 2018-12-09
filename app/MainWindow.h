@@ -3,6 +3,7 @@
 #include "ToolModel.h"
 
 #include <QMainWindow>
+#include <QSortFilterProxyModel>
 
 namespace Ui {
 class MainWindow;
@@ -16,10 +17,21 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_toolButton_clicked();
+    void on_openButton_clicked();
+    void on_deleteButton_clicked();
+
+    void onCurrentChanged( const QModelIndex& current, const QModelIndex& prev );
+
+
+    void on_importButton_clicked();
+
+    void on_saveButton_clicked();
+
+    void on_exportButton_clicked();
 
 private:
     Ui::MainWindow* ui;
 
     ToolModel model_;
+    QSortFilterProxyModel* sort_;
 };

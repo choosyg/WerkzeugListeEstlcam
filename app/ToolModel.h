@@ -8,7 +8,13 @@ class ToolModel : public QAbstractTableModel {
 public:
     explicit ToolModel( QObject* parent = nullptr );
 
-    void load( const QString& file );
+    void load( const QString& filename );
+    void save( const QString& filename );
+
+    void import( const QString& filename );
+    void exportTo( const QString& filename );
+
+    bool removeRows( int row, int count, const QModelIndex& parent ) override;
 
     int rowCount( const QModelIndex& parent ) const override;
     int columnCount( const QModelIndex& parent ) const override;
@@ -18,5 +24,5 @@ public:
     Qt::ItemFlags flags( const QModelIndex& index ) const override;
 
 private:
-    EstlcamToolList list_;
+    EstlcamToolList tools_;
 };
