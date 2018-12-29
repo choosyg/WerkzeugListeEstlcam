@@ -19,7 +19,7 @@ class EstlcamTool {
 public:
     EstlcamTool();
     boost::uuids::uuid uuid;
-    double nummer;
+    double nummer = 0.0;
     std::string name;
 
     std::array< Parameter, 19 > parameters;

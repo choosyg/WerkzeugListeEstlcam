@@ -100,6 +100,13 @@ bool ToolModel::removeRows( int row, int count, const QModelIndex& parent ) {
     return true;
 }
 
+bool ToolModel::insertRows( int row, int count, const QModelIndex& parent ) {
+    beginInsertRows( parent, row, row + count - 1 );
+    tools_.insert( tools_.begin() + row, count, EstlcamTool() );
+    endInsertRows();
+    return true;
+}
+
 int ToolModel::rowCount( const QModelIndex& parent ) const {
     if( parent.isValid() ) {
         return 0;
@@ -154,6 +161,9 @@ QVariant ToolModel::data( const QModelIndex& index, int role ) const {
             }
             return p.value;
         }
+    }
+    if( role == Qt::ToolTipRole ) {
+        return boost::lexical_cast< std::string >( tools_[index.row()].uuid ).c_str();
     }
 
     return QVariant();

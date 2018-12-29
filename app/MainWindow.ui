@@ -80,6 +80,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QToolButton" name="addButton">
+        <property name="text">
+         <string>Add</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QToolButton" name="deleteButton">
         <property name="enabled">
          <bool>false</bool>

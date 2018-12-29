@@ -4,6 +4,7 @@
 #include <boost/iostreams/filter/gzip.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
 #include <algorithm>
@@ -71,25 +72,27 @@ std::string Parameter::toString() const {
 
 
 EstlcamTool::EstlcamTool() {
+    boost::uuids::basic_random_generator< boost::mt19937 > generator;
+    uuid = generator();
     parameters[0] = Parameter( "Durchmesser", 0.0, "mm" );
     parameters[1] = Parameter( "Zustellung", 0.0, "mm" );
     parameters[2] = Parameter( "Eintauchwinkel", 0.0, "°" );
     parameters[3] = Parameter( "Vorschub", 0.0, "mm/s" );
     parameters[4] = Parameter( "Eintauchgeschwindigkeit", 0.0, "mm/s" );
     parameters[5] = Parameter( "Drehzahl", 0.0, "upm" );
-    parameters[6] = Parameter( "Schlicht-Zustellung", 0.0, "mm" );
-    parameters[7] = Parameter( "Schlicht-Vorschub", 0.0, "mm/s" );
-    parameters[8] = Parameter( "schlichtenEintauchgeschwindigkeit", 0.0, "mm/s" );
-    parameters[9] = Parameter( "schlichtenDrehzahl", 0.0, "upm" );
-    parameters[10] = Parameter( "raumzustellung", 0.0, "%" );
+    parameters[6] = Parameter( "Schlicht-Zustellung", -1.0, "mm" );
+    parameters[7] = Parameter( "Schlicht-Vorschub", -1.0, "mm/s" );
+    parameters[8] = Parameter( "schlichtenEintauchgeschwindigkeit", -1.0, "mm/s" );
+    parameters[9] = Parameter( "schlichtenDrehzahl", -1.0, "upm" );
+    parameters[10] = Parameter( "raumzustellung", 90.0, "%" );
     parameters[11] = Parameter( "wirbelzustellung", 0.0, "%" );
-    parameters[12] = Parameter( "wirbelbreite", 0.0, "%" );
-    parameters[13] = Parameter( "wirbelOszillation", 0.0, "mm" );
-    parameters[14] = Parameter( "schneidenwinkel", 0.0, "°" );
-    parameters[15] = Parameter( "mittenversatz", 0.0, "mm" );
-    parameters[16] = Parameter( "spizenversatz", 0.0, "mm" );
+    parameters[12] = Parameter( "wirbelbreite", 50.0, "%" );
+    parameters[13] = Parameter( "wirbelOszillation", 0.05, "mm" );
+    parameters[14] = Parameter( "schneidenwinkel", 180.0, "°" );
+    parameters[15] = Parameter( "mittenversatz", -1.0, "mm" );
+    parameters[16] = Parameter( "spizenversatz", -1.0, "mm" );
     parameters[17] = Parameter( "kantenradius", 0.0, "mm" );
-    parameters[18] = Parameter( "Unbekannnt", 0.0, "mm" );
+    parameters[18] = Parameter( "Unbekannnt", -1.0, "mm" );
 }
 
 std::string EstlcamTool::toString() const {

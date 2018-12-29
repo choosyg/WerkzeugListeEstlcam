@@ -74,3 +74,10 @@ void MainWindow::on_deleteButton_clicked() {
 void MainWindow::onCurrentChanged( const QModelIndex& current, const QModelIndex& prev ) {
     ui->deleteButton->setEnabled( current.isValid() );
 }
+
+void MainWindow::on_addButton_clicked() {
+    model_.insertRow( 0, QModelIndex() );
+    QModelIndex idx = model_.index( 0, 0 );
+    auto viewIndex = sort_->mapFromSource( idx );
+    ui->tableView->setCurrentIndex( viewIndex );
+}
