@@ -11,9 +11,10 @@ MainWindow::MainWindow( QWidget* parent ) : QMainWindow( parent ), ui( new Ui::M
     ui->setupUi( this );
 
     sort_ = new QSortFilterProxyModel( this );
+    sort_->setDynamicSortFilter( false );
     sort_->setSourceModel( &model_ );
     ui->tableView->setModel( sort_ );
-    ui->tableView->sortByColumn( 0, Qt::AscendingOrder );
+    ui->tableView->sortByColumn( 1, Qt::AscendingOrder );
 
     connect( ui->tableView->selectionModel(),
              &QItemSelectionModel::currentChanged,
@@ -32,6 +33,7 @@ void MainWindow::on_openButton_clicked() {
     settings.setValue( LAST_OPEN_DIR_KEY, QFileInfo( file ).absolutePath() );
 
     model_.load( file );
+    sort_->invalidate();
     ui->tableView->resizeColumnsToContents();
 }
 
@@ -52,6 +54,7 @@ void MainWindow::on_importButton_clicked() {
     settings.setValue( LAST_OPEN_DIR_KEY, QFileInfo( file ).absolutePath() );
 
     model_.import( file );
+    sort_->invalidate();
     ui->tableView->resizeColumnsToContents();
 }
 
@@ -80,4 +83,12 @@ void MainWindow::on_addButton_clicked() {
     QModelIndex idx = model_.index( 0, 0 );
     auto viewIndex = sort_->mapFromSource( idx );
     ui->tableView->setCurrentIndex( viewIndex );
+}
+
+void MainWindow::on_reindexButton_clicked() {
+    for( int i = 0; i < model_.rowCount( QModelIndex() ); ++i ) {
+        auto index = sort_->index( i, 0 );
+        sort_->setData( index, i + 1 );
+    }
+    sort_->invalidate();
 }
